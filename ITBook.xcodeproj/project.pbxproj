@@ -20,6 +20,15 @@
 		7C7D93922B4EA687007DEDB8 /* UIView+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7D93912B4EA687007DEDB8 /* UIView+Preview.swift */; };
 		7C7D93972B4EB043007DEDB8 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7D93962B4EB043007DEDB8 /* APIService.swift */; };
 		7C7D93992B4EB803007DEDB8 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7D93982B4EB803007DEDB8 /* ImageCache.swift */; };
+		7CD5D1822B4EC03E0088A8B0 /* BookItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD5D1812B4EC03E0088A8B0 /* BookItem.swift */; };
+		7CD5D1852B4EC0A00088A8B0 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD5D1842B4EC0A00088A8B0 /* SearchTableViewCell.swift */; };
+		7CD5D1872B4ECA390088A8B0 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD5D1862B4ECA390088A8B0 /* SearchViewModel.swift */; };
+		7CD5D18C2B4ECC2B0088A8B0 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD5D18B2B4ECC2B0088A8B0 /* SearchResult.swift */; };
+		7CD5D18F2B4ECFED0088A8B0 /* SearchClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD5D18E2B4ECFED0088A8B0 /* SearchClient.swift */; };
+		7CD5D1932B4ED0900088A8B0 /* RealSearchClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD5D1922B4ED0900088A8B0 /* RealSearchClient.swift */; };
+		7CD5D1952B4ED09B0088A8B0 /* MockSearchClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD5D1942B4ED09B0088A8B0 /* MockSearchClient.swift */; };
+		7CD5D1982B4ED3510088A8B0 /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD5D1972B4ED3510088A8B0 /* UITableViewCell+Extension.swift */; };
+		7CD5D19A2B4F009A0088A8B0 /* SearchViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD5D1992B4F009A0088A8B0 /* SearchViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +66,15 @@
 		7C7D93912B4EA687007DEDB8 /* UIView+Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Preview.swift"; sourceTree = "<group>"; };
 		7C7D93962B4EB043007DEDB8 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		7C7D93982B4EB803007DEDB8 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		7CD5D1812B4EC03E0088A8B0 /* BookItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookItem.swift; sourceTree = "<group>"; };
+		7CD5D1842B4EC0A00088A8B0 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
+		7CD5D1862B4ECA390088A8B0 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		7CD5D18B2B4ECC2B0088A8B0 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
+		7CD5D18E2B4ECFED0088A8B0 /* SearchClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchClient.swift; sourceTree = "<group>"; };
+		7CD5D1922B4ED0900088A8B0 /* RealSearchClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealSearchClient.swift; sourceTree = "<group>"; };
+		7CD5D1942B4ED09B0088A8B0 /* MockSearchClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSearchClient.swift; sourceTree = "<group>"; };
+		7CD5D1972B4ED3510088A8B0 /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
+		7CD5D1992B4F009A0088A8B0 /* SearchViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				7C7D936B2B4EA4A3007DEDB8 /* ITBookTests.swift */,
+				7CD5D1992B4F009A0088A8B0 /* SearchViewModelTests.swift */,
 			);
 			path = ITBookTests;
 			sourceTree = "<group>";
@@ -172,7 +191,13 @@
 		7C7D93882B4EA5F4007DEDB8 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				7CD5D18A2B4ECC0F0088A8B0 /* Entity */,
+				7CD5D1902B4ED0730088A8B0 /* Implementation */,
+				7CD5D1912B4ED07D0088A8B0 /* Mock */,
+				7CD5D18D2B4ECFD90088A8B0 /* Protocols */,
+				7CD5D1832B4EC08A0088A8B0 /* Subviews */,
 				7C7D93892B4EA60D007DEDB8 /* SearchViewController.swift */,
+				7CD5D1862B4ECA390088A8B0 /* SearchViewModel.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -180,6 +205,7 @@
 		7C7D938D2B4EA648007DEDB8 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				7CD5D1962B4ED32C0088A8B0 /* TSUIKitExtensions */,
 				7C7D938E2B4EA650007DEDB8 /* TSPreviewHelper */,
 			);
 			path = UI;
@@ -217,6 +243,55 @@
 				7C7D93982B4EB803007DEDB8 /* ImageCache.swift */,
 			);
 			path = TSImageCache;
+			sourceTree = "<group>";
+		};
+		7CD5D1832B4EC08A0088A8B0 /* Subviews */ = {
+			isa = PBXGroup;
+			children = (
+				7CD5D1842B4EC0A00088A8B0 /* SearchTableViewCell.swift */,
+			);
+			path = Subviews;
+			sourceTree = "<group>";
+		};
+		7CD5D18A2B4ECC0F0088A8B0 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				7CD5D1812B4EC03E0088A8B0 /* BookItem.swift */,
+				7CD5D18B2B4ECC2B0088A8B0 /* SearchResult.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		7CD5D18D2B4ECFD90088A8B0 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				7CD5D18E2B4ECFED0088A8B0 /* SearchClient.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		7CD5D1902B4ED0730088A8B0 /* Implementation */ = {
+			isa = PBXGroup;
+			children = (
+				7CD5D1922B4ED0900088A8B0 /* RealSearchClient.swift */,
+			);
+			path = Implementation;
+			sourceTree = "<group>";
+		};
+		7CD5D1912B4ED07D0088A8B0 /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				7CD5D1942B4ED09B0088A8B0 /* MockSearchClient.swift */,
+			);
+			path = Mock;
+			sourceTree = "<group>";
+		};
+		7CD5D1962B4ED32C0088A8B0 /* TSUIKitExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				7CD5D1972B4ED3510088A8B0 /* UITableViewCell+Extension.swift */,
+			);
+			path = TSUIKitExtensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -350,14 +425,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CD5D1952B4ED09B0088A8B0 /* MockSearchClient.swift in Sources */,
+				7CD5D1872B4ECA390088A8B0 /* SearchViewModel.swift in Sources */,
 				7C7D93592B4EA49D007DEDB8 /* ViewController.swift in Sources */,
+				7CD5D1982B4ED3510088A8B0 /* UITableViewCell+Extension.swift in Sources */,
 				7C7D93972B4EB043007DEDB8 /* APIService.swift in Sources */,
 				7C7D93992B4EB803007DEDB8 /* ImageCache.swift in Sources */,
+				7CD5D1822B4EC03E0088A8B0 /* BookItem.swift in Sources */,
 				7C7D93552B4EA49D007DEDB8 /* AppDelegate.swift in Sources */,
+				7CD5D18C2B4ECC2B0088A8B0 /* SearchResult.swift in Sources */,
 				7C7D938A2B4EA60D007DEDB8 /* SearchViewController.swift in Sources */,
 				7C7D93922B4EA687007DEDB8 /* UIView+Preview.swift in Sources */,
+				7CD5D18F2B4ECFED0088A8B0 /* SearchClient.swift in Sources */,
 				7C7D93902B4EA672007DEDB8 /* UIViewController+Preview.swift in Sources */,
 				7C7D93572B4EA49D007DEDB8 /* SceneDelegate.swift in Sources */,
+				7CD5D1932B4ED0900088A8B0 /* RealSearchClient.swift in Sources */,
+				7CD5D1852B4EC0A00088A8B0 /* SearchTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,6 +448,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CD5D19A2B4F009A0088A8B0 /* SearchViewModelTests.swift in Sources */,
 				7C7D936C2B4EA4A3007DEDB8 /* ITBookTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
