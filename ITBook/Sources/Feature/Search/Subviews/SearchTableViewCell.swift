@@ -86,10 +86,15 @@ class SearchTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        iconImageView.cancelImageLoad()
+        iconImageView.image = nil
+        titleLabel.text = nil
+        subtitleLabel.text = nil
+        priceLabel.text = nil
     }
     
     private func updateUI() {
-        iconImageView.image = UIImage()
+        iconImageView.setImage(with: item?.image)
         titleLabel.text = item?.title
         subtitleLabel.text = item?.subtitle
         priceLabel.text = item?.price
