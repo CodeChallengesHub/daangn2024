@@ -8,10 +8,35 @@
 
 import Foundation
 
-struct SearchResult {
+struct SearchResult: Decodable {
     let total: Int
     let page: Int
     let books: [BookItem]
+    
+    enum CodingKeys: String, CodingKey {
+        case total, page, books
+    }
+    
+    init(total: Int, page: Int, books: [BookItem]) {
+        self.total = total
+        self.page = page
+        self.books = books
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let totalString = try container.decode(String.self, forKey: .total)
+        guard let totalInt = Int(totalString) else {
+            throw DecodingError.dataCorruptedError(forKey: .total, in: container, debugDescription: "Total is not an integer")
+        }
+        self.total = totalInt
+        let pageString = try container.decode(String.self, forKey: .page)
+        guard let pageInt = Int(pageString) else {
+            throw DecodingError.dataCorruptedError(forKey: .total, in: container, debugDescription: "Page is not an integer")
+        }
+        self.page = pageInt
+        self.books = try container.decode([BookItem].self, forKey: .books)
+    }
 }
 
 extension SearchResult {
