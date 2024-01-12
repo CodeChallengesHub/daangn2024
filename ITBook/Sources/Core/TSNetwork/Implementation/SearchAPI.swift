@@ -10,28 +10,31 @@ import Foundation
 
 enum SearchAPI: APIEndpoint {
     case search(keyword: String, page: Int)
+    case book(isbn13: String)
 
     var baseURL: URL {
-        return URL(string: "https://api.itbook.store/1.0")!
+        return URL(string: "https://api.itbook.store")!
     }
 
     var path: String {
         switch self {
         case .search(let keyword, let page):
-            return "/search/\(keyword)/\(page)"
+            return "/1.0/search/\(keyword)/\(page)"
+        case .book(let isbn13):
+            return "/1.0/books/\(isbn13)"
         }
     }
 
     var method: APIMethod {
         switch self {
-        case .search:
+        case .search, .book:
             return .get
         }
     }
 
     var task: APITask {
         switch self {
-        case .search:
+        case .search, .book:
             return .requestPlain
         }
     }

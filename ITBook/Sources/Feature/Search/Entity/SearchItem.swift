@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct BookItem: Equatable, Decodable {
+struct SearchItem: Equatable, Decodable {
     let title: String
     let subtitle: String
     let isbn13: String
@@ -18,7 +18,7 @@ struct BookItem: Equatable, Decodable {
 }
 
 #if DEBUG
-extension BookItem {
+extension SearchItem {
     static let mock = Self(
         title: "A Swift Kickstart, 2nd Edition",
         subtitle: "Introducing the Swift Programming Language",

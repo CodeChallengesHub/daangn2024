@@ -10,7 +10,7 @@ import Foundation
 
 class SearchViewModel {
     // MARK: - Published
-    @Published var items: [BookItem] = []
+    @Published var items: [SearchItem] = []
     var hasNextPage: Bool = true // 마지막 페이지 인지 체크 하는 flag
     
     // MARK: - Properties

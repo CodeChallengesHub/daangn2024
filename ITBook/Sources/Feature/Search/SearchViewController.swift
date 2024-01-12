@@ -53,13 +53,13 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
         setupViews()
         setupConstraints()
         configureUI()
-        bind()
+        observeViewModel()
     }
 }
 
 // MARK: - Setup
 private extension SearchViewController {
-    /// Add subviews to the main view here.
+    /// Initialize and add subviews
     func setupViews() {
         view.addSubview(searchBar)
         view.addSubview(tableView)
@@ -71,7 +71,7 @@ private extension SearchViewController {
         tableView.prefetchDataSource = self
     }
 
-    /// Define and activate the Auto Layout constraints for subviews here.
+    /// Set up Auto Layout constraints
     func setupConstraints() {
         NSLayoutConstraint.activate([
             searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -92,13 +92,14 @@ private extension SearchViewController {
         ])
     }
 
-    /// Set initial values for other UI elements and handle localization.
+    /// Initialize UI elements and localization
     func configureUI() {
         view.backgroundColor = .systemBackground
         navigationItem.title = "검색"
     }
     
-    func bind() {
+    /// Observes ViewModel's published properties for updates.
+    func observeViewModel() {
         viewModel.$items
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
@@ -137,7 +138,7 @@ extension SearchViewController {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.identifier, for: indexPath) as! SearchTableViewCell
-        cell.item = viewModel.items[safe: indexPath.row]
+        cell.configure(with: viewModel.items[safe: indexPath.row])
         return cell
     }
 }
@@ -146,6 +147,12 @@ extension SearchViewController {
 extension SearchViewController {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        guard let item = viewModel.items[safe: indexPath.row] else { return }
+        let bookClient = RealBookClient()
+        let viewModel = BookViewModel(bookClient: bookClient, isbn13: item.isbn13)
+        let destination = BookViewController(viewModel: viewModel)
+        navigationController?.pushViewController(destination, animated: true)
     }
 }
 

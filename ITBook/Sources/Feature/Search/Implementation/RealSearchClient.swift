@@ -14,8 +14,6 @@ struct RealSearchClient: SearchClient {
     func search(keyword: String, page: Int) async throws -> SearchResult {
         do {
             let data = try await service.request(.search(keyword: keyword, page: page))
-            
-            // JSON 데이터를 SearchResult 타입으로 디코딩
             let decoder = JSONDecoder()
             let searchResult = try decoder.decode(SearchResult.self, from: data)
             return searchResult

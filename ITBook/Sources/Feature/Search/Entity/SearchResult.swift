@@ -11,13 +11,13 @@ import Foundation
 struct SearchResult: Decodable {
     let total: Int
     let page: Int
-    let books: [BookItem]
+    let books: [SearchItem]
     
     enum CodingKeys: String, CodingKey {
         case total, page, books
     }
     
-    init(total: Int, page: Int, books: [BookItem]) {
+    init(total: Int, page: Int, books: [SearchItem]) {
         self.total = total
         self.page = page
         self.books = books
@@ -29,13 +29,13 @@ struct SearchResult: Decodable {
         guard let totalInt = Int(totalString) else {
             throw DecodingError.dataCorruptedError(forKey: .total, in: container, debugDescription: "Total is not an integer")
         }
-        self.total = totalInt
+        total = totalInt
         let pageString = try container.decode(String.self, forKey: .page)
         guard let pageInt = Int(pageString) else {
             throw DecodingError.dataCorruptedError(forKey: .total, in: container, debugDescription: "Page is not an integer")
         }
-        self.page = pageInt
-        self.books = try container.decode([BookItem].self, forKey: .books)
+        page = pageInt
+        books = try container.decode([SearchItem].self, forKey: .books)
     }
 }
 

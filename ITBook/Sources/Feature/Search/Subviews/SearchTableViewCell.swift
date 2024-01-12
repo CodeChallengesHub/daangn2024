@@ -9,18 +9,19 @@
 import UIKit
 
 class SearchTableViewCell: UITableViewCell {
-    private enum ImageSize { // 이미지 300x350라 비율에 맞춤
+    private enum ImageSize { // 이미지 300x350 비율에 맞춤
         static let width: CGFloat = 60
         static let height: CGFloat = 70
     }
     
     // MARK: - Views
-    private let iconImageView: UIImageView = {
+    private let bookImageView: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: ImageSize.width, height: ImageSize.height))
         imageView.layer.cornerRadius = 10
         imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 1.0
         imageView.layer.borderColor = UIColor.systemGray3.cgColor
+        imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -64,13 +65,6 @@ class SearchTableViewCell: UITableViewCell {
         label.numberOfLines = 1
         return label
     }()
-
-    // MARK: - Properties
-    var item: BookItem? {
-        didSet {
-            updateUI()
-        }
-    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -86,15 +80,15 @@ class SearchTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        iconImageView.cancelImageLoad()
-        iconImageView.image = nil
+        bookImageView.cancelImageLoad()
+        bookImageView.image = nil
         titleLabel.text = nil
         subtitleLabel.text = nil
         priceLabel.text = nil
     }
     
-    private func updateUI() {
-        iconImageView.setImage(with: item?.image)
+    func configure(with item: SearchItem?) {
+        bookImageView.setImage(with: item?.image)
         titleLabel.text = item?.title
         subtitleLabel.text = item?.subtitle
         priceLabel.text = item?.price
@@ -103,9 +97,9 @@ class SearchTableViewCell: UITableViewCell {
 
 // MARK: - Setup
 private extension SearchTableViewCell {
-    /// Add subviews to the main view here.
+    /// Initialize and add subviews
     func setupViews() {
-        contentView.addSubview(iconImageView)
+        contentView.addSubview(bookImageView)
         contentView.addSubview(stackView)
         
         stackView.addArrangedSubview(titleLabel)
@@ -113,25 +107,25 @@ private extension SearchTableViewCell {
         stackView.addArrangedSubview(priceLabel)
     }
     
-    /// Define and activate the Auto Layout constraints for subviews here.
+    /// Set up Auto Layout constraints
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            iconImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            iconImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            iconImageView.widthAnchor.constraint(equalToConstant: ImageSize.width),
-            iconImageView.heightAnchor.constraint(equalToConstant: ImageSize.height)
+            bookImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            bookImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
+            bookImageView.widthAnchor.constraint(equalToConstant: ImageSize.width),
+            bookImageView.heightAnchor.constraint(equalToConstant: ImageSize.height)
         ])
         
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(lessThanOrEqualTo: contentView.topAnchor, constant: 10),
-            stackView.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: 10),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            stackView.leadingAnchor.constraint(equalTo: bookImageView.trailingAnchor, constant: 10),
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
             stackView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -10),
             stackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
     
-    /// Set initial values for other UI elements and handle localization.
+    /// Initialize UI elements and localization
     func configureUI() {
         accessoryType = .disclosureIndicator
     }
@@ -143,7 +137,7 @@ import SwiftUI
 struct SearchTableViewCell_Preview: PreviewProvider {
     static var previews: some View {
         let cell = SearchTableViewCell(style: .default, reuseIdentifier: "cellID")
-        cell.item = .mock
+        cell.configure(with: .mock)
         return cell.showPreview()
             .previewLayout(.fixed(width: 320, height: 100))
     }
