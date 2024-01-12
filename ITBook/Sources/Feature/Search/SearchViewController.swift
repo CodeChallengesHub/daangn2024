@@ -9,7 +9,7 @@
 import UIKit
 import Combine
 
-class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, UITableViewDataSourcePrefetching {
+class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSourcePrefetching {
     // MARK: - Views
     private let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
@@ -27,12 +27,13 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
     }()
     
     private let activityIndicator: UIActivityIndicatorView = {
-        let activityIndicator = UIActivityIndicatorView(style: .medium)
+        let activityIndicator = UIActivityIndicatorView(style: .large)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         return activityIndicator
     }()
     
     // MARK: - Properties
+    private var dataSource: UITableViewDiffableDataSource<Section, Row>!
     private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Initialize with ViewModel
@@ -53,6 +54,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
         setupViews()
         setupConstraints()
         configureUI()
+        setupDataSource()
         observeViewModel()
     }
 }
@@ -66,7 +68,6 @@ private extension SearchViewController {
         view.addSubview(activityIndicator)
         
         searchBar.delegate = self
-        tableView.dataSource = self
         tableView.delegate = self
         tableView.prefetchDataSource = self
     }
@@ -100,10 +101,30 @@ private extension SearchViewController {
     
     /// Observes ViewModel's published properties for updates.
     func observeViewModel() {
+        viewModel.$isLoading
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isLoading in
+                if isLoading {
+                    self?.activityIndicator.startAnimating()
+                } else {
+                    self?.activityIndicator.stopAnimating()
+                }
+            }
+            .store(in: &cancellables)
+        
         viewModel.$items
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.tableView.reloadData()
+            .sink { [weak self] items in
+                self?.updateSnapshot(with: items)
+            }
+            .store(in: &cancellables)
+        
+        viewModel.$error
+            .filter { $0 != nil }
+            .map { $0! }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] error in
+                self?.showAlertForError(error)
             }
             .store(in: &cancellables)
     }
@@ -130,16 +151,32 @@ extension SearchViewController {
     }
 }
 
-// MARK: - UITableViewDataSource
+// MARK: - UITableViewDiffableDataSource
 extension SearchViewController {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.items.count
+    enum Section {
+        case main
+    }
+
+    enum Row: Hashable {
+        case item(SearchItem)
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.identifier, for: indexPath) as! SearchTableViewCell
-        cell.configure(with: viewModel.items[safe: indexPath.row])
-        return cell
+    func setupDataSource() {
+        dataSource = UITableViewDiffableDataSource<Section, Row>(tableView: tableView) { tableView, indexPath, row -> UITableViewCell? in
+            switch row {
+            case .item(let item):
+                let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.identifier, for: indexPath) as! SearchTableViewCell
+                cell.configure(with: item)
+                return cell
+            }
+        }
+    }
+    
+    func updateSnapshot(with items: [SearchItem]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Row>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(items.map { Row.item($0) }, toSection: .main)
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
 
@@ -159,7 +196,7 @@ extension SearchViewController {
 // MARL: - UITableViewDataSourcePrefetching
 extension SearchViewController {
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
-        guard viewModel.items.count > 0, viewModel.hasNextPage else { return }
+        guard viewModel.items.count > 0, viewModel.hasNextPage, !viewModel.isLoading else { return }
         
         if indexPaths.contains(where: { $0.row >= viewModel.items.count - 1 }) {
             Task {
@@ -174,7 +211,12 @@ import SwiftUI
 
 struct SearchViewController_Preview: PreviewProvider {
     static var previews: some View {
-        let searchClient = MockSearchClient()
+        var searchClient = MockSearchClient()
+        searchClient.searchResults = [
+            1: .mock1,
+            2: .mock2
+        ]
+//        searchClient.error = NSError(domain: "TestError", code: 0, userInfo: nil)
         let viewModel = SearchViewModel(searchClient: searchClient)
         let viewController = SearchViewController(viewModel: viewModel)
         let navigationController = UINavigationController(rootViewController: viewController)

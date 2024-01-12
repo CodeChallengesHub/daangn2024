@@ -32,11 +32,10 @@ private extension BookViewModel {
             isLoading = true
             let result = try await bookClient.book(isbn13: isbn13)
             item = result
-            isLoading = false
         } catch {
             print(error)
             self.error = error
-            isLoading = false
         }
+        isLoading = false
     }
 }

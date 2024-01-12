@@ -108,7 +108,9 @@ private extension BookViewController {
             .map { $0! }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] error in
-                self?.alertError(error)
+                self?.showAlertForError(error) {
+                    self?.navigationController?.popViewController(animated: true)
+                }
             }
             .store(in: &cancellables)
     }
@@ -160,22 +162,6 @@ extension BookViewController {
 extension BookViewController {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-    }
-}
-
-// MARK: - Error Handing
-private extension BookViewController {
-    func alertError(_ error: Error) {
-        let alertController = UIAlertController(
-            title: "알림",
-            message: error.localizedDescription,
-            preferredStyle: .alert
-        )
-        let confirmAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
-            self?.navigationController?.popViewController(animated: true)
-        }
-        alertController.addAction(confirmAction)
-        present(alertController, animated: true)
     }
 }
 

@@ -52,8 +52,9 @@ struct BookItem: Decodable {
 
 
 struct BookAttribute: Hashable {
-    var key: String
-    var value: String
+    let id = UUID()
+    let key: String
+    let value: String
 }
 
 #if DEBUG

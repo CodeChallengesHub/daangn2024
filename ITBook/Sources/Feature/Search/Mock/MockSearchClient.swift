@@ -9,14 +9,18 @@
 import Foundation
 
 struct MockSearchClient: SearchClient {
+    var searchResults: [Int: SearchResult] = [:]
+    var error: Error?
+    
     func search(keyword: String, page: Int) async throws -> SearchResult {
-        switch page {
-        case 1:
-            return .mock1
-        case 2:
-            return .mock2
-        default:
-            return .mock2
+//        if #available(iOS 16.0, *) {
+//            try await Task.sleep(for: .seconds(1))
+//        } else {
+//            // Fallback on earlier versions
+//        }
+        if let error = error {
+            throw error
         }
+        return searchResults[page] ?? .mock1
     }
 }

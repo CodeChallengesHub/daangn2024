@@ -11,6 +11,8 @@ import Foundation
 class SearchViewModel {
     // MARK: - Published
     @Published var items: [SearchItem] = []
+    @Published var isLoading: Bool = false
+    @Published var error: Error?
     var hasNextPage: Bool = true // 마지막 페이지 인지 체크 하는 flag
     
     // MARK: - Properties
@@ -34,7 +36,7 @@ extension SearchViewModel {
     }
     
     func searchNextPage() async {
-        guard let keyword = keyword, hasNextPage else { return }
+        guard !isLoading, let keyword = keyword, hasNextPage else { return }
         await performSearch(withKeyword: keyword, forPage: page + 1)
     }
     
@@ -51,11 +53,14 @@ extension SearchViewModel {
 private extension SearchViewModel {
     func performSearch(withKeyword keyword: String, forPage pageNumber: Int) async {
         do {
+            isLoading = true
             let result = try await searchClient.search(keyword: keyword, page: pageNumber)
             updateSearchResults(with: result, isNextPage: pageNumber > 1)
         } catch {
             print(error)
+            self.error = error
         }
+        isLoading = false
     }
     
     func updateSearchResults(with result: SearchResult, isNextPage: Bool) {

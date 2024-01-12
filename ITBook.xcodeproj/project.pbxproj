@@ -39,6 +39,7 @@
 		7C7D93902B4EA672007DEDB8 /* UIViewController+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7D938F2B4EA672007DEDB8 /* UIViewController+Preview.swift */; };
 		7C7D93922B4EA687007DEDB8 /* UIView+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7D93912B4EA687007DEDB8 /* UIView+Preview.swift */; };
 		7C7D93972B4EB043007DEDB8 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7D93962B4EB043007DEDB8 /* APIService.swift */; };
+		7CB722A92B51C58300E29B6E /* UIViewController+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB722A82B51C58300E29B6E /* UIViewController+Error.swift */; };
 		7CD5D1822B4EC03E0088A8B0 /* SearchItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD5D1812B4EC03E0088A8B0 /* SearchItem.swift */; };
 		7CD5D1852B4EC0A00088A8B0 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD5D1842B4EC0A00088A8B0 /* SearchTableViewCell.swift */; };
 		7CD5D1872B4ECA390088A8B0 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD5D1862B4ECA390088A8B0 /* SearchViewModel.swift */; };
@@ -96,6 +97,7 @@
 		7C7D938F2B4EA672007DEDB8 /* UIViewController+Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Preview.swift"; sourceTree = "<group>"; };
 		7C7D93912B4EA687007DEDB8 /* UIView+Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Preview.swift"; sourceTree = "<group>"; };
 		7C7D93962B4EB043007DEDB8 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		7CB722A82B51C58300E29B6E /* UIViewController+Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Error.swift"; sourceTree = "<group>"; };
 		7CD5D1812B4EC03E0088A8B0 /* SearchItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchItem.swift; sourceTree = "<group>"; };
 		7CD5D1842B4EC0A00088A8B0 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		7CD5D1862B4ECA390088A8B0 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
@@ -451,6 +453,7 @@
 			children = (
 				7C5ED0072B51896D000E67A6 /* NSLayoutConstraint+Extension.swift */,
 				7CD5D1972B4ED3510088A8B0 /* UITableViewCell+Extension.swift */,
+				7CB722A82B51C58300E29B6E /* UIViewController+Error.swift */,
 			);
 			path = TSUIKitExtensions;
 			sourceTree = "<group>";
@@ -557,6 +560,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7CD5D1952B4ED09B0088A8B0 /* MockSearchClient.swift in Sources */,
+				7CB722A92B51C58300E29B6E /* UIViewController+Error.swift in Sources */,
 				7C5ED0082B51896D000E67A6 /* NSLayoutConstraint+Extension.swift in Sources */,
 				7CD5D1872B4ECA390088A8B0 /* SearchViewModel.swift in Sources */,
 				7C5D0A322B5020FA00FEC558 /* SearchAPI.swift in Sources */,
@@ -808,7 +812,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.taesu.ITBookTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -827,7 +831,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.taesu.ITBookTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
