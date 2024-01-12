@@ -137,7 +137,7 @@ extension SearchViewController {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.identifier, for: indexPath) as! SearchTableViewCell
-        cell.item = viewModel.items[indexPath.row]
+        cell.item = viewModel.items[safe: indexPath.row]
         return cell
     }
 }
