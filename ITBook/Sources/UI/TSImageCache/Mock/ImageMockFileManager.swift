@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ImageMockFileManager: FileManagerProtocol {
+class ImageMockFileManager: ImageFileMangerProtocol {
     var files = [String: Data]()
 
     func fileExists(atPath path: String) -> Bool {

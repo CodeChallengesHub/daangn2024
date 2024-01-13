@@ -11,7 +11,7 @@ import UIKit
 class ImageCache {
     static let shared = ImageCache()
     private var session: ImageSessionProtocol = URLSession.shared
-    private var fileManager: FileManagerProtocol = FileManager.default
+    private var fileManager: ImageFileMangerProtocol = FileManager.default
     
     private var imageCache = NSCache<NSString, UIImage>()
     
@@ -77,7 +77,7 @@ extension ImageCache {
         self.session = session
     }
     
-    func setFileManagerForTesting(fileManager: FileManagerProtocol) {
+    func setFileManagerForTesting(fileManager: ImageFileMangerProtocol) {
         self.fileManager = fileManager
     }
     
