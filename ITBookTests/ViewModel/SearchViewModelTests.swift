@@ -98,7 +98,7 @@ final class SearchViewModelTests: XCTestCase {
         XCTAssertEqual(state.keyword, nil)
     }
     
-    // 검색 결과가 없는 경우의 처리를 테스트합니다.
+    // 검색 결과가 없는 경우의 처리를 테스트
     func testSearchWithNoResults() async {
         var mockSearchClient = MockSearchClient()
         // 빈 결과를 반환하도록 설정

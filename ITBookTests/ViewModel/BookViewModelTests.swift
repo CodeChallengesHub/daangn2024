@@ -13,6 +13,8 @@ import Combine
 final class BookViewModelTests: XCTestCase {
     private var cancellables: Set<AnyCancellable> = []
     
+    // 책 정보의 가져오기 성공을 테스트
+    // 이 테스트는 네트워크 요청이 성공할 경우, 해당 책 정보가 올바르게 로드되고 isLoading 상태가 false로 업데이트되는지 확인
     func testFetchSuccess() {
         var mockBookClient = MockBookClient()
         mockBookClient.bookItem = .mock
@@ -40,6 +42,8 @@ final class BookViewModelTests: XCTestCase {
         wait(for: [loadingFinishedExpectation, itemLoadedExpectation], timeout: 5.0)
     }
     
+    // 책 정보 가져오기 실패를 테스트
+    // 이 테스트는 네트워크 요청이 실패할 경우, 에러가 발생하고 isLoading 상태가 false로 업데이트되는지 확인
     func testFetchFailure() {
         var mockBookClient = MockBookClient()
         mockBookClient.error = NSError(domain: "TestError", code: 0, userInfo: nil)
