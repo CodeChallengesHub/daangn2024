@@ -31,6 +31,7 @@ class SearchViewModel {
 // MARK: - Search Handling
 extension SearchViewModel {
     func search(keyword: String) async {
+        clearSearchResults()
         self.keyword = keyword
         await performSearch(withKeyword: keyword, forPage: 1)
     }
@@ -57,7 +58,7 @@ private extension SearchViewModel {
             let result = try await searchClient.search(keyword: keyword, page: pageNumber)
             updateSearchResults(with: result, isNextPage: pageNumber > 1)
         } catch {
-            print(error)
+            TSLogger.error(error)
             self.error = error
         }
         isLoading = false

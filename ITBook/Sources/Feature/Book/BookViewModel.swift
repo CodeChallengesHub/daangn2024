@@ -33,7 +33,7 @@ private extension BookViewModel {
             let result = try await bookClient.book(isbn13: isbn13)
             item = result
         } catch {
-            print(error)
+            TSLogger.error(error)
             self.error = error
         }
         isLoading = false
