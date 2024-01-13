@@ -8,14 +8,16 @@
 
 import Foundation
 
-struct ImageMockURLSession: ImageSessionProtocol {
-    var nextDataTask = MockURLSessionDataTask()
-    var nextData: Data?
-    var nextError: Error?
+class ImageMockURLSession: ImageSessionProtocol {
+    var imageData: Data?
+    var error: Error?
+    var taskMap = [URL: MockURLSessionDataTask]()
 
     func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> ImageSessionDataTaskProtocol {
-        completionHandler(nextData, nil, nextError)
-        return nextDataTask
+        let dataTask = MockURLSessionDataTask()
+        taskMap[url] = dataTask
+        completionHandler(imageData, nil, error)
+        return dataTask
     }
 }
 

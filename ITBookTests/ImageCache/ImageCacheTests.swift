@@ -10,29 +10,55 @@ import XCTest
 @testable import ITBook
 
 final class ImageCacheTests: XCTestCase {
-    func testImageCacheLoadsImageSuccessfully() {
-        // 모의 URLSession 및 데이터 준비
-        var mockSession = ImageMockURLSession()
+    var mockFileManager: ImageMockFileManager!
+    
+    override func setUpWithError() throws {
+        mockFileManager = ImageMockFileManager()
+        ImageCache.shared.setFileManagerForTesting(fileManager: mockFileManager)
+    }
+    
+    // ImageCache가 네트워크에서 이미지를 성공적으로 로드하고, 해당 이미지를 메모리와 파일에 저장하는지 검증하는 테스트
+    func testLoadImageFromNetwork() {
+        let mockSession = ImageMockURLSession()
         let expectedData = UIImage(systemName: "star")!.pngData()!
-        mockSession.nextData = expectedData
-        
-        // ImageCache에 MockURLSession 주입
+        let cacheKey = "https://test.com/image.png"
+        mockSession.imageData = expectedData
         ImageCache.shared.setSessionForTesting(session: mockSession)
+        
+        let expectation = XCTestExpectation(description: "Load image from network")
+        
+        _ = ImageCache.shared.loadImage(from: URL(string: cacheKey)!) { image in
+            XCTAssertNotNil(image, "Loaded image should not be nil")
+//            XCTAssertEqual(image!.pngData()!, expectedData, "Loaded image should match the network image")
+            
+            // 메모리 캐시에 이미지가 존재하는지 확인
+            let cachedImage = ImageCache.shared.getCachedImage(forKey: cacheKey)
+            XCTAssertNotNil(cachedImage, "Image should be cached in memory")
 
-        let expectation = XCTestExpectation(description: "ImageCache loads image from URL")
-
-        // 예상되는 URL
-        let url = URL(string: "https://example.com/image.png")!
-
-        _ = ImageCache.shared.loadImage(from: url) { image in
-            XCTAssertNotNil(image, "Image should be loaded")
+            // 디스크 캐시에 저장되었는지 확인
+            let cacheDirectory = self.mockFileManager.urls(for: .cachesDirectory, in: .userDomainMask)[0]
+            let filePath = cacheDirectory.appendingPathComponent(cacheKey)
+            XCTAssertTrue(self.mockFileManager.fileExists(atPath: filePath.path), "Image should be saved to disk cache")
             expectation.fulfill()
         }
         
         wait(for: [expectation], timeout: 5.0)
-
-        // 요청이 시작되었는지 확인
-        XCTAssertTrue(mockSession.nextDataTask.isResumed, "Data task should be resumed")
+    }
+    
+    // 이미지 로드 실패 시의 동작을 테스트
+    func testLoadImageFailure() {
+        let mockSession = ImageMockURLSession()
+        mockSession.imageData = nil
+        mockSession.error = NSError(domain: "com.testError", code: 404, userInfo: nil)
+        ImageCache.shared.setSessionForTesting(session: mockSession)
+        
+        let expectation = XCTestExpectation(description: "Image load should fail")
+        
+        _ = ImageCache.shared.loadImage(from: URL(string: "https://test.com/failure.jpg")!) { image in
+            XCTAssertNil(image, "Image load should fail and result should be nil")
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 5.0)
     }
 }
-

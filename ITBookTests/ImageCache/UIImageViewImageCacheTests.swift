@@ -10,34 +10,40 @@ import XCTest
 @testable import ITBook
 
 final class UIImageViewImageCacheTests: XCTestCase {
+    var mockFileManager: ImageMockFileManager!
+    
+    override func setUpWithError() throws {
+        mockFileManager = ImageMockFileManager()
+        ImageCache.shared.setFileManagerForTesting(fileManager: mockFileManager)
+    }
+    
+    // UIImageView의 setImage(with:) 메서드가 새로운 이미지 요청을 시작할 때 이전 요청을 취소하는지 확인하는 테스트
     func testImageViewSetImageCancelsPreviousRequest() {
-        // 모의 URLSession 및 데이터 준비
-        var mockSession = ImageMockURLSession()
+        let mockSession = ImageMockURLSession()
         let expectedData = UIImage(systemName: "star")!.pngData()!
-        mockSession.nextData = expectedData
-        
-        // ImageCache에 MockURLSession 주입
+        mockSession.imageData = expectedData
         ImageCache.shared.setSessionForTesting(session: mockSession)
         
         let imageView = UIImageView()
-
+        
         // 첫 번째 이미지 로드
-        imageView.setImage(with: "https://example.com/first.jpg")
-
+        let firstURL = URL(string: "https://test.com/first.jpg")!
+        imageView.setImage(with: firstURL.absoluteString)
+        
         // 첫 번째 요청의 MockURLSessionDataTask를 가져옴
-        let firstTask = mockSession.nextDataTask
-
+        let firstTask = mockSession.taskMap[firstURL]
+        
         // 두 번째 이미지 로드
-        imageView.setImage(with: "https://example.com/second.jpg")
-
+        let secondURL = URL(string: "https://test.com/second.jpg")!
+        imageView.setImage(with: secondURL.absoluteString)
+        
         // 첫 번째 요청이 취소되었는지 확인
-        XCTAssertTrue(firstTask.isCancelled, "First task should be cancelled")
-
+        XCTAssertTrue(firstTask?.isCancelled ?? false, "First task should be cancelled")
+        
         // 두 번째 요청의 MockURLSessionDataTask를 가져옴
-        let secondTask = mockSession.nextDataTask
-
+        let secondTask = mockSession.taskMap[secondURL]
+        
         // 두 번째 요청이 진행 중인지 확인
-        XCTAssertTrue(secondTask.isResumed, "Second task should be running")
+        XCTAssertTrue(secondTask?.isResumed ?? false, "Second task should be running")
     }
 }
-
