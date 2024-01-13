@@ -128,7 +128,7 @@ final class SearchViewModelTests: XCTestCase {
         await viewModel.search(keyword: "swift")
         
         // 검증: 에러가 발생했을 때 적절한 처리가 이루어졌는지 확인
-        XCTAssertNil(viewModel.items, "에러 상황에서 items는 nil 이어야 함")
+        XCTAssertTrue(viewModel.items.isEmpty, "에러 상황에서 items는 비어있어야 함")
         XCTAssertNotNil(viewModel.error, "에러 상황에서 error는 NotNil 이어야 함")
     }
 }

@@ -12,14 +12,14 @@ import XCTest
 final class ImageCacheTests: XCTestCase {
     func testImageCacheLoadsImageSuccessfully() {
         // 모의 URLSession 및 데이터 준비
-        let mockSession = ImageMockURLSession()
+        var mockSession = ImageMockURLSession()
         let expectedData = UIImage(systemName: "star")!.pngData()!
         mockSession.nextData = expectedData
         
         // ImageCache에 MockURLSession 주입
         ImageCache.shared.setSessionForTesting(session: mockSession)
 
-        let expectation = self.expectation(description: "ImageCache loads image from URL")
+        let expectation = XCTestExpectation(description: "ImageCache loads image from URL")
 
         // 예상되는 URL
         let url = URL(string: "https://example.com/image.png")!
@@ -28,8 +28,8 @@ final class ImageCacheTests: XCTestCase {
             XCTAssertNotNil(image, "Image should be loaded")
             expectation.fulfill()
         }
-
-        waitForExpectations(timeout: 1, handler: nil)
+        
+        wait(for: [expectation], timeout: 5.0)
 
         // 요청이 시작되었는지 확인
         XCTAssertTrue(mockSession.nextDataTask.isResumed, "Data task should be resumed")

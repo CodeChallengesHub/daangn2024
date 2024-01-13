@@ -12,7 +12,7 @@ import XCTest
 final class UIImageViewImageCacheTests: XCTestCase {
     func testImageViewSetImageCancelsPreviousRequest() {
         // 모의 URLSession 및 데이터 준비
-        let mockSession = ImageMockURLSession()
+        var mockSession = ImageMockURLSession()
         let expectedData = UIImage(systemName: "star")!.pngData()!
         mockSession.nextData = expectedData
         

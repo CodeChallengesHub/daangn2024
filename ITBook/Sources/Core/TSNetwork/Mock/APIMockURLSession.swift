@@ -8,7 +8,7 @@
 
 import Foundation
 
-class APIMockURLSession: APISessionProtocol {
+struct APIMockURLSession: APISessionProtocol {
     var requestData: Data?
     var requestResponse: URLResponse?
     var requestError: Error?

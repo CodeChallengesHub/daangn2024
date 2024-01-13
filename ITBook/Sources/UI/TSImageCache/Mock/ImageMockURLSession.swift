@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ImageMockURLSession: ImageSessionProtocol {
+struct ImageMockURLSession: ImageSessionProtocol {
     var nextDataTask = MockURLSessionDataTask()
     var nextData: Data?
     var nextError: Error?

@@ -10,7 +10,7 @@ import Foundation
 
 typealias SearchAPIService = APIService<SearchAPI>
 
-final class APIService<Endpoint: APIEndpoint> {
+struct APIService<Endpoint: APIEndpoint> {
     private let session: APISessionProtocol
     
     init(session: APISessionProtocol = URLSession.shared) {
@@ -32,7 +32,6 @@ final class APIService<Endpoint: APIEndpoint> {
             request.httpBody = data
         case .requestParameters(let parameters):
             request.httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: [])
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         }
         
         // 요청 로그
@@ -51,11 +50,10 @@ final class APIService<Endpoint: APIEndpoint> {
             
             // HTTP 응답 상태 코드 검증
             guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-                // 오류 처리. 예를 들어, 특정 오류 타입 또는 상태 코드에 따른 메시지를 던질 수 있습니다.
-                throw URLError(.badServerResponse)
+                let error = URLError(.badServerResponse)
+                TSLogger.api("Error: \(error)")
+                throw error
             }
-            
-            // 데이터 로그 (예: JSON 문자열로)
 #if DEBUG
             if let jsonDataString = String(data: data, encoding: .utf8) {
                 TSLogger.api("Received Data: \(jsonDataString)")
@@ -63,7 +61,7 @@ final class APIService<Endpoint: APIEndpoint> {
 #endif
             return data
         } catch {
-            // 오류 처리
+            TSLogger.api("Error: \(error)")
             throw error
         }
     }
