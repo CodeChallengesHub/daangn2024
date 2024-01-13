@@ -119,12 +119,12 @@ private extension SearchViewController {
             }
             .store(in: &cancellables)
         
-        viewModel.$error
+        viewModel.$alertMessage
             .filter { $0 != nil }
             .map { $0! }
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] error in
-                self?.showAlertForError(error)
+            .sink { [weak self] message in
+                self?.showAlertForMessage(message)
             }
             .store(in: &cancellables)
     }

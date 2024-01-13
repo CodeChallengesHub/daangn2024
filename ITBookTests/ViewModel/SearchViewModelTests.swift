@@ -129,6 +129,6 @@ final class SearchViewModelTests: XCTestCase {
         
         // 검증: 에러가 발생했을 때 적절한 처리가 이루어졌는지 확인
         XCTAssertTrue(viewModel.items.isEmpty, "에러 상황에서 items는 비어있어야 함")
-        XCTAssertNotNil(viewModel.error, "에러 상황에서 error는 NotNil 이어야 함")
+        XCTAssertNotNil(viewModel.alertMessage, "에러 상황에서 alertMessage는 NotNil 이어야 함")
     }
 }

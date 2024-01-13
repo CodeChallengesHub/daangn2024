@@ -12,7 +12,7 @@ class SearchViewModel {
     // MARK: - Published
     @Published var items: [SearchItem] = []
     @Published var isLoading: Bool = false
-    @Published var error: Error?
+    @Published var alertMessage: String?
     var hasNextPage: Bool = true // 마지막 페이지 인지 체크 하는 flag
     
     // MARK: - Properties
@@ -59,7 +59,7 @@ private extension SearchViewModel {
             updateSearchResults(with: result, isNextPage: pageNumber > 1)
         } catch {
             TSLogger.error(error)
-            self.error = error
+            alertMessage = error.localizedDescription
         }
         isLoading = false
     }
@@ -71,6 +71,9 @@ private extension SearchViewModel {
             items.append(contentsOf: result.books)
         } else {
             items = result.books
+            if items.isEmpty {
+                alertMessage = "검색 결과가 없습니다."
+            }
         }
         updateHasNextPage()
     }

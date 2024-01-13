@@ -30,7 +30,7 @@ struct SearchResult: Decodable {
             throw DecodingError.dataCorruptedError(forKey: .total, in: container, debugDescription: "Total is not an integer")
         }
         total = totalInt
-        let pageString = try container.decode(String.self, forKey: .page)
+        let pageString = try container.decodeIfPresent(String.self, forKey: .page) ?? "1"
         guard let pageInt = Int(pageString) else {
             throw DecodingError.dataCorruptedError(forKey: .total, in: container, debugDescription: "Page is not an integer")
         }
