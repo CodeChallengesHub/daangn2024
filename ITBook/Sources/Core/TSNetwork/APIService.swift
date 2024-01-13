@@ -10,7 +10,7 @@ import Foundation
 
 typealias SearchAPIService = APIService<SearchAPI>
 
-struct APIService<Endpoint: APIEndpoint> {
+struct APIService<Endpoint: APIEndpointProtocol> {
     private let session: APISessionProtocol
     
     init(session: APISessionProtocol = URLSession.shared) {

@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum SearchAPI: APIEndpoint {
+enum SearchAPI: APIEndpointProtocol {
     case search(keyword: String, page: Int)
     case book(isbn13: String)
 

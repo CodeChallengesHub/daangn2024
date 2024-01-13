@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct MockSearchClient: SearchClient {
+struct MockSearchClient: SearchClientProtocol {
     var searchResults: [Int: SearchResult] = [:]
     var error: Error?
     var delayInSeconds: TimeInterval = 0  // 딜레이 시간 (초 단위)

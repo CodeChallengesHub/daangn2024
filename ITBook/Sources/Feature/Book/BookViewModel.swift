@@ -15,9 +15,9 @@ class BookViewModel {
     @Published var error: Error?
     
     // MARK: - Initialize with Client
-    private let bookClient: BookClient
+    private let bookClient: BookClientProtocol
     
-    init(bookClient: BookClient, isbn13: String) {
+    init(bookClient: BookClientProtocol, isbn13: String) {
         self.bookClient = bookClient
         Task {
             await fetch(isbn13: isbn13)

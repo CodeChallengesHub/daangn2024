@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct RealSearchClient: SearchClient {
+struct RealSearchClient: SearchClientProtocol {
     private let service = SearchAPIService()
     
     func search(keyword: String, page: Int) async throws -> SearchResult {

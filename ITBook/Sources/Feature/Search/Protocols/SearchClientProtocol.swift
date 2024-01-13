@@ -1,5 +1,5 @@
 //
-//  SearchClient.swift
+//  SearchClientProtocol.swift
 //  ITBook
 //
 //  Created by TAE SU LEE on 1/10/24.
@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol SearchClient {
+protocol SearchClientProtocol {
     func search(keyword: String, page: Int) async throws -> SearchResult
 }

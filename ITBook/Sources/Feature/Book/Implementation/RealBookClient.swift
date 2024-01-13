@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct RealBookClient: BookClient {
+struct RealBookClient: BookClientProtocol {
     private let service = SearchAPIService()
     
     func book(isbn13: String) async throws -> BookItem {

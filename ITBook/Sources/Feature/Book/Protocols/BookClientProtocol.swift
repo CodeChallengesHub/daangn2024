@@ -1,5 +1,5 @@
 //
-//  BookClient.swift
+//  BookClientProtocol.swift
 //  ITBook
 //
 //  Created by TAE SU LEE on 1/11/24.
@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol BookClient {
+protocol BookClientProtocol {
     func book(isbn13: String) async throws -> BookItem
 }

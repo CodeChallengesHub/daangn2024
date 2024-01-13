@@ -1,5 +1,5 @@
 //
-//  APIEndpoint.swift
+//  APIEndpointProtocol.swift
 //  ITBook
 //
 //  Created by TAE SU LEE on 1/11/24.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol APIEndpoint {
+protocol APIEndpointProtocol {
     var baseURL: URL { get }
     var path: String { get }
     var method: APIMethod { get }

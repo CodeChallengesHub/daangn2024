@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct MockBookClient: BookClient {
+struct MockBookClient: BookClientProtocol {
     var bookItem: BookItem?
     var error: Error?
 

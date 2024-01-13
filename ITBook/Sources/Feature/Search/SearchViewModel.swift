@@ -21,9 +21,9 @@ class SearchViewModel {
     private var keyword: String?
     
     // MARK: - Initialize with Client
-    private let searchClient: SearchClient
+    private let searchClient: SearchClientProtocol
     
-    init(searchClient: SearchClient) {
+    init(searchClient: SearchClientProtocol) {
         self.searchClient = searchClient
     }
 }
