@@ -9,7 +9,7 @@
 import UIKit
 import Combine
 
-class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSourcePrefetching {
+class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate {
     // MARK: - Views
     private let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
@@ -69,7 +69,6 @@ private extension SearchViewController {
         
         searchBar.delegate = self
         tableView.delegate = self
-        tableView.prefetchDataSource = self
     }
 
     /// Set up Auto Layout constraints
@@ -193,12 +192,16 @@ extension SearchViewController {
     }
 }
 
-// MARL: - UITableViewDataSourcePrefetching
+// MARL: - UIScrollViewDelegate
 extension SearchViewController {
-    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
-        guard viewModel.items.count > 0, viewModel.hasNextPage, !viewModel.isLoading else { return }
+    // pagination 구현
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let frameHeight = scrollView.frame.size.height
         
-        if indexPaths.contains(where: { $0.row >= viewModel.items.count - 1 }) {
+        if offsetY > contentHeight - frameHeight - 40 {
+            guard viewModel.items.count > 0, viewModel.hasNextPage, !viewModel.isLoading else { return }
             Task {
                 await viewModel.searchNextPage()
             }
