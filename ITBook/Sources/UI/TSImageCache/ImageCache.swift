@@ -66,8 +66,17 @@ private extension ImageCache {
     }
 
     func getDiskCachePath(withKey key: String) -> URL {
-        let cacheDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask)[0]
-        return cacheDirectory.appendingPathComponent(key)
+        if let url = URL(string: key) {
+            // URL에서 마지막 경로 구성 요소(파일 이름) 추출
+            let filename = url.lastPathComponent
+            
+            // 캐시 디렉토리 경로를 가져오고 파일 이름을 추가
+            let cacheDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first!
+            return cacheDirectory.appendingPathComponent(filename)
+        } else {
+            // 유효하지 않은 URL인 경우 기본 캐시 경로를 반환
+            return fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first!
+        }
     }
 }
 

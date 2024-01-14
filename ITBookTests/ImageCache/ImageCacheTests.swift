@@ -37,7 +37,7 @@ final class ImageCacheTests: XCTestCase {
 
             // 디스크 캐시에 저장되었는지 확인
             let cacheDirectory = self.mockFileManager.urls(for: .cachesDirectory, in: .userDomainMask)[0]
-            let filePath = cacheDirectory.appendingPathComponent(cacheKey)
+            let filePath = cacheDirectory.appendingPathComponent(URL(string: cacheKey)!.lastPathComponent)
             XCTAssertTrue(self.mockFileManager.fileExists(atPath: filePath.path), "Image should be saved to disk cache")
             expectation.fulfill()
         }
