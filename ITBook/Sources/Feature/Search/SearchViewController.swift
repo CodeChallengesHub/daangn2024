@@ -137,7 +137,6 @@ extension SearchViewController {
         guard let searchText = searchBar.text, !searchText.isEmpty else { return }
         Task {
             await viewModel.search(keyword: searchText)
-            tableView.reloadData()
         }
     }
     
