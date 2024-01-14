@@ -9,7 +9,7 @@
 import UIKit
 import Combine
 
-class BookViewController: UIViewController, UITableViewDelegate {
+class BookViewController: UIViewController {
     // MARK: - Views
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -58,8 +58,6 @@ private extension BookViewController {
     func setupViews() {
         view.addSubview(tableView)
         view.addSubview(activityIndicator)
-        
-        tableView.delegate = self
     }
 
     /// Set up Auto Layout constraints
@@ -155,13 +153,6 @@ extension BookViewController {
         }
         
         dataSource.apply(snapshot, animatingDifferences: false)
-    }
-}
-
-// MARK: - UITableViewDelegate
-extension BookViewController {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
