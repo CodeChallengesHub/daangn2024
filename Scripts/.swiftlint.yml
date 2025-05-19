@@ -1,0 +1,33 @@
+excluded:
+  - fastlane
+  - Dependencies
+  - Carthage
+
+disabled_rules:
+  - void_function_in_ternary
+
+identifier_name:
+  min_length: 1
+  max_length: 60
+  allowed_symbols: [_]
+
+large_tuple:
+  warning: 3
+  error: 4
+
+line_length:
+  warning: 120
+  error: 120
+  ignores_urls: true
+  ignores_comments: true
+
+type_name:
+  min_length: 2
+  max_length: 60
+  allowed_symbols: [_]
+
+trailing_whitespace:
+  warning: true  # 경고 발생
+  error: false   # 오류로 처리하지 않음
+  ignores_empty_lines: true # 빈 줄의 공백을 무시할지 여부
+  ignores_comments: false   # 주석 줄의 공백을 무시할지 여부
